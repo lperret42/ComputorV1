@@ -72,7 +72,8 @@ class Polynomial(object):
                        range(self.members_degree_max - (len(self.l_coefs) - 1))]
         r_coefs = self.r_coefs + [0 for _ in \
                        range(self.members_degree_max - (len(self.r_coefs) - 1))]
-        self.reduced_form = [l_coef - r_coef for l_coef, r_coef in zip(l_coefs, r_coefs)]
+        self.reduced_form = [l_coef - r_coef for l_coef, r_coef in \
+                             zip(l_coefs, r_coefs)]
         self.reduced_form = remove_zero_at_the_end(self.reduced_form)
 
     def print_reduced_form(self):
