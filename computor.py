@@ -8,9 +8,10 @@ def main(entry):
     polynomial.parse_entry()
     polynomial.get_reduced_form()
     polynomial.get_degree()
+    polynomial.solve()
     polynomial.print_reduced_form()
     polynomial.print_degree()
-    polynomial.solve()
+    polynomial.print_solution()
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

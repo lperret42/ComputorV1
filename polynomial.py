@@ -1,6 +1,7 @@
 import re
 
-from tools import remove_zero_at_the_end, float_is_int, print_error, get_delimiters_str
+from tools import remove_zero_at_the_end, float_is_int, print_error,\
+                  get_delimiters_str, sqrt
 
 class Polynomial(object):
     def __init__(self, entry, monome_delimiters=['+'],
@@ -34,7 +35,6 @@ class Polynomial(object):
         degrees = [m.split(self.mult_char)[1].split(self.expo_char)[1] for m in monomes]
         if not degrees == map(str, range(len(degrees))):      #test if degrees are ordinate
             print_error(2)
-
         return indeterminates[0], coefs
 
     def process_member(self, member):
@@ -97,19 +97,52 @@ class Polynomial(object):
             self.solve_if_degree_one()
         elif self.degree == 2:
             self.solve_if_degree_two()
+
+    def solve_if_degree_one(self):
+        b, a = self.reduced_form
+        self.x0 = -b / a
+
+    def solve_if_degree_two(self):
+        c, b, a = self.reduced_form
+        delta = b * b - 4. * a * c
+        if delta >= 0:
+            self.x0 = (-b + sqrt(delta)) / (2. * a)
+            self.x1 = (-b - sqrt(delta)) / (2. * a)
+        else:
+            self.z0 = [-b / (2. * a), sqrt(-delta) / (2. * a)]
+            self.z1 = [-b / (2. * a), -sqrt(-delta) / (2. * a)]
+        self.delta = delta
+
+    def print_solution(self):
+        if self.degree == 0:
+            self.print_if_degree_zero()
+        elif self.degree == 1:
+            self.print_if_degree_one()
+        elif self.degree == 2:
+            self.print_if_degree_two()
         else:
             print "The polynomial degree is stricly greater than 2, I can't solve."
 
-    def solve_if_degree_zero(self):
+    def print_if_degree_zero(self):
         if self.reduced_form[0] != 0:
             print "The equation has no solution."
         else:
             print "The solutions are all complex numbers."
 
-    def solve_if_degree_one(self):
-        b, a = self.reduced_form
-        x0 = -b / a
-        print "The solution is:\n{}".format(x0)
+    def print_if_degree_one(self):
+        print "The solution is:\n{}".format(self.x0)
 
-    def solve_if_degree_two(self):
-        print "degree two"
+    def print_if_degree_two(self):
+        if self.delta == 0:
+            print "Discriminant is null, the only solution is:\n{}".format(self.x0)
+        elif self.delta > 0:
+            print "Discriminant is strictly positive, the two solutions are:\n{}\n{}".format(self.x0, self.x1)
+        else:
+            z0_imaginary_sign = '+' if self.z0[1] >= 0 else '-'
+            z0_str = "{} {} i * {}".format(self.z0[0], z0_imaginary_sign, abs(self.z0[1]))
+            z1_imaginary_sign = '+' if self.z1[1] >= 0 else '-'
+            z1_str = "{} {} i * {}".format(self.z1[0], z1_imaginary_sign, abs(self.z1[1]))
+            print "Discriminant is strictly negative, the two complex solutions are:\n{}\n{}".format(
+                z0_str,
+                z1_str,
+                )
