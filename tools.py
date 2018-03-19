@@ -2,9 +2,38 @@ def float_is_int(f):
     """
     return if the float f can be an int
     """
-    f = f * (-1 if f < 0 else 1)
+    f = str(f)
+    return float(f[f.find('.'):]) == 0
 
-    return int(f) == f
+def get_float_str_to_print(f):
+    sign = '-' if f < 0 else ''
+    if not isinstance(f, int) and float_is_int(f):
+        f = str(f)
+        f = int((f[:f.find('.')]))
+    to_print = "{}{}".format(sign, abs(f))
+
+    return to_print
+
+def print_float(f):
+    to_print = get_float_str_to_print(f)
+    print to_print,
+
+def print_complex(z):
+    x, y = z
+    y_to_print = get_float_str_to_print(abs(y))
+    if not (x == 0 and y != 0):
+        print_float(x)
+        z_imaginary_sign = '+' if y >= 0 else '-'
+        if y_to_print != '1':
+            print "{} i * {}".format(z_imaginary_sign, y_to_print)
+        else:
+            print "{} i".format(z_imaginary_sign)
+    else:
+        z_imaginary_sign = '' if y >= 0 else '-'
+        if y_to_print != '1':
+            print "{}i * {}".format(z_imaginary_sign, y_to_print)
+        else:
+            print "{}i".format(z_imaginary_sign)
 
 def print_error(num_error):
     print "The equation is not well formatted"
@@ -19,7 +48,6 @@ def get_delimiters_str(delimiters):
     return delimiters_str
 
 def remove_zero_at_the_end(lst):
-    print lst
     if len(lst) < 2:
         return lst
     while True:
