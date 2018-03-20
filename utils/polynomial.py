@@ -150,7 +150,7 @@ class Polynomial(object):
                 )
         elif self.delta > 0:
             print "Discriminant is strictly positive, the two solutions are",
-            print ":\n{}\n{}".format(
+            print "\b:\n{}\n{}".format(
                 get_float_str_to_print(self.x0),
                 get_float_str_to_print(self.x1),
                 )
