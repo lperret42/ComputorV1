@@ -1,14 +1,11 @@
-import re
-
 from tools import remove_zero_at_the_end, float_is_int, print_error, sqrt,\
-          print_float, print_complex, get_delimiters_str, get_float_str_to_print
+                  print_float, print_complex, get_float_str_to_print
 
 class Polynomial(object):
-    def __init__(self, entry, monome_delimiters=['+'],
+    def __init__(self, entry, monome_delimiter='+',
                  mult_char = '*', expo_char = '^'):
         self.entry = entry
-        self.monome_delimiters = monome_delimiters
-        self.monome_delimiters_str = get_delimiters_str(monome_delimiters)
+        self.monome_delimiter = monome_delimiter
         self.mult_char = mult_char
         self.expo_char = expo_char
 
@@ -33,7 +30,7 @@ class Polynomial(object):
             member = '-' + member[1:].replace('-', '+-')
         else:
             member = member.replace('-', '+-')
-        monomes = re.split(self.monome_delimiters_str, member)
+        monomes = member.split(self.monome_delimiter)
         for monome in monomes:
             self.process_monome(monome, self.mult_char, self.expo_char)
         indeterminate, coefs = self.process_is_univariate_polynomial(monomes)
@@ -59,11 +56,12 @@ class Polynomial(object):
         coefs = [m.split(self.mult_char)[0] for m in monomes]
         indeterminates = [m.split(self.mult_char)[1].split(self.expo_char)[0] \
                                                             for m in monomes]
-        for indeterminate in indeterminates[1:]:  #test if all indeterminate are equals
+        for indeterminate in indeterminates[1:]:
             if indeterminate != indeterminates[0]:
                 print_error(2)
-        degrees = [m.split(self.mult_char)[1].split(self.expo_char)[1] for m in monomes]
-        if not degrees == map(str, range(len(degrees))):  #test if degrees are ordinate
+        degrees = [m.split(self.mult_char)[1].split(self.expo_char)[1] for \
+                                                                m in monomes]
+        if not degrees == map(str, range(len(degrees))):
             print_error(2)
         return indeterminates[0], coefs
 
@@ -133,7 +131,8 @@ class Polynomial(object):
         elif self.degree == 2:
             self.print_if_degree_two()
         else:
-            print "The polynomial degree is stricly greater than 2, I can't solve."
+            print "The polynomial degree is stricly greater than 2,",
+            print "I can't solve."
 
     def print_if_degree_zero(self):
         if self.reduced_form[0] != 0:
@@ -150,11 +149,13 @@ class Polynomial(object):
                 get_float_str_to_print(self.x0)
                 )
         elif self.delta > 0:
-            print "Discriminant is strictly positive, the two solutions are:\n{}\n{}".format(
+            print "Discriminant is strictly positive, the two solutions are",
+            print ":\n{}\n{}".format(
                 get_float_str_to_print(self.x0),
                 get_float_str_to_print(self.x1),
                 )
         else:
-            print "Discriminant is strictly negative, the two complex solutions are:"
+            print "Discriminant is strictly negative,",
+            print "the two complex solutions are:"
             print_complex(self.z0)
             print_complex(self.z1)

@@ -2,6 +2,10 @@ def float_is_int(f):
     """
     return if the float f can be an int
     """
+    if isinstance(f, int):
+        return True
+    elif not isinstance(f, float):
+        return False
     f = str(f)
     return float(f[f.find('.'):]) == 0
 
@@ -38,14 +42,6 @@ def print_complex(z):
 def print_error(num_error):
     print "The equation is not well formatted"
     exit()
-
-def get_delimiters_str(delimiters):
-    delimiters_str = '['
-    for delimiter in delimiters:
-        delimiters_str += delimiter
-    delimiters_str += ']'
-
-    return delimiters_str
 
 def remove_zero_at_the_end(lst):
     if len(lst) < 2:

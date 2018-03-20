@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7
 import sys
 
-from polynomial import Polynomial
+from utils.polynomial import Polynomial
 
 def main(entry):
     polynomial = Polynomial(entry)
