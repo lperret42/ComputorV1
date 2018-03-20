@@ -47,7 +47,7 @@ class Polynomial(object):
         if not expo_char in indeterminate_with_degree:
             print_error(1)
         indeterminate, degree = indeterminate_with_degree.split(expo_char)
-        if not indeterminate.isupper():
+        if not indeterminate.isalpha():
             print_error(1)
         if not (degree.isdigit() and int(degree) >= 0):
             print_error(1)
