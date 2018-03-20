@@ -1,3 +1,5 @@
+import sys
+
 def float_is_int(f):
     """
     return if the float f can be an int
@@ -40,7 +42,7 @@ def print_complex(z):
             print "{}i".format(z_imaginary_sign)
 
 def print_error(num_error):
-    print "The equation is not well formatted"
+    sys.stderr.write("The equation is not well formatted\n")
     exit()
 
 def remove_zero_at_the_end(lst):
