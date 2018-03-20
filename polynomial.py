@@ -146,7 +146,9 @@ class Polynomial(object):
 
     def print_if_degree_two(self):
         if self.delta == 0:
-            print "Discriminant is null, the only solution is:\n{}".format(self.x0)
+            print "Discriminant is null, the only solution is:\n{}".format(
+                get_float_str_to_print(self.x0)
+                )
         elif self.delta > 0:
             print "Discriminant is strictly positive, the two solutions are:\n{}\n{}".format(
                 get_float_str_to_print(self.x0),
